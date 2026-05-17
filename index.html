@@ -105,7 +105,7 @@ body {
 /* Layout */
 .layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 280px minmax(0, 1fr);
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -177,6 +177,7 @@ body {
 .main {
     padding: 32px 48px 80px;
     max-width: 900px;
+    min-width: 0;
 }
 
 h1 {
@@ -450,7 +451,7 @@ td strong { color: var(--accent-bright); }
     .header-meta { display: none; }
     .menu-toggle { display: flex; }
 
-    .layout { grid-template-columns: 1fr; }
+    .layout { grid-template-columns: minmax(0, 1fr); }
 
     .sidebar {
         position: fixed;
