@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Black — стратегия запуска линейки, мерч и поставщики</title>
+<style>
+:root {
+    --bg: #0d0d0f;
+    --bg-elevated: #16161a;
+    --bg-card: #1c1c22;
+    --bg-hover: #25252d;
+    --border: #2a2a33;
+    --border-light: #353540;
+    --text: #e8e8ed;
+    --text-muted: #9a9aa8;
+    --text-dim: #6c6c78;
+    --accent: #d4a056;
+    --accent-bright: #f0b968;
+    --accent-dim: rgba(212, 160, 86, 0.15);
+    --success: #4caf7c;
+    --warning: #d99750;
+    --danger: #c75c5c;
+    --info: #5c8fc7;
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --radius: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 13, 15, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    color: var(--text);
+}
+
+.header-brand-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.header-meta {
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.menu-toggle {
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Layout */
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 24px 16px;
+    border-right: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+.toc-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    padding: 0 12px;
+}
+
+.toc-list {
+    list-style: none;
+}
+
+.toc-list li { margin: 2px 0; }
+
+.toc-list a {
+    display: block;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+}
+
+.toc-list a:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+    border-left-color: var(--accent);
+}
+
+.toc-list a.active {
+    background: var(--accent-dim);
+    color: var(--accent-bright);
+    border-left-color: var(--accent);
+}
+
+.toc-list ul {
+    list-style: none;
+    margin-left: 12px;
+    margin-top: 2px;
+}
+
+.toc-list ul a {
+    font-size: 12px;
+    padding: 5px 12px;
+    color: var(--text-dim);
+}
+
+/* Main content */
+.main {
+    padding: 32px 48px 80px;
+    max-width: 900px;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin: 8px 0 6px;
+    color: var(--text);
+}
+
+h1 .subtitle {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 10px;
+    letter-spacing: 0;
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 48px 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--accent-bright);
+    letter-spacing: -0.2px;
+}
+
+h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 20px 0 8px;
+    color: var(--text);
+}
+
+p { margin: 10px 0; }
+
+a { color: var(--accent-bright); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+a:hover { border-bottom-color: var(--accent-bright); }
+
+strong { color: var(--text); font-weight: 700; }
+
+ul, ol { margin: 10px 0 10px 22px; }
+li { margin: 5px 0; }
+li::marker { color: var(--accent); }
+
+code {
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    color: var(--accent-bright);
+}
+
+/* Callouts */
+.callout {
+    background: var(--bg-card);
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.callout-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.callout-tldr { border-left-color: var(--accent); }
+.callout-tldr .callout-title { color: var(--accent); }
+
+.callout-recommend {
+    border-left-color: var(--success);
+    background: rgba(76, 175, 124, 0.06);
+}
+.callout-recommend .callout-title { color: var(--success); }
+
+.callout-warning {
+    border-left-color: var(--warning);
+    background: rgba(217, 151, 80, 0.06);
+}
+.callout-warning .callout-title { color: var(--warning); }
+
+.callout-danger {
+    border-left-color: var(--danger);
+    background: rgba(199, 92, 92, 0.06);
+}
+.callout-danger .callout-title { color: var(--danger); }
+
+.callout-info {
+    border-left-color: var(--info);
+    background: rgba(92, 143, 199, 0.06);
+}
+.callout-info .callout-title { color: var(--info); }
+
+/* Tables */
+.table-wrap {
+    margin: 18px 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap::-webkit-scrollbar { height: 8px; }
+.table-wrap::-webkit-scrollbar-track { background: var(--bg-elevated); }
+.table-wrap::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 600px;
+}
+
+th {
+    background: var(--bg-card);
+    color: var(--accent-bright);
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-light);
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+td strong { color: var(--accent-bright); }
+
+/* Hero block */
+.hero {
+    background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+}
+
+.hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hero-meta-item::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--accent-dim);
+    color: var(--accent-bright);
+    border: 1px solid var(--accent);
+    white-space: nowrap;
+}
+
+.badge-success {
+    background: rgba(76, 175, 124, 0.15);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.badge-danger {
+    background: rgba(199, 92, 92, 0.15);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.badge-warning {
+    background: rgba(217, 151, 80, 0.15);
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+/* Numbered scenarios */
+.scenarios {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.scenario {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    position: relative;
+}
+
+.scenario.recommended {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-dim);
+}
+
+.scenario-medal {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.scenario-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Footer */
+.footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+    text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .header { padding: 12px 16px; }
+    .header-meta { display: none; }
+    .menu-toggle { display: flex; }
+
+    .layout { grid-template-columns: 1fr; }
+
+    .sidebar {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 85%;
+        max-width: 320px;
+        height: calc(100vh - 60px);
+        background: var(--bg);
+        z-index: 99;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        border-right: 1px solid var(--border);
+        padding: 20px 12px;
+    }
+
+    .sidebar.open { transform: translateX(0); }
+
+    .backdrop {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.6);
+        z-index: 98;
+    }
+    .backdrop.show { display: block; }
+
+    .main { padding: 24px 16px 60px; }
+
+    h1 { font-size: 24px; }
+    h1 .subtitle { font-size: 14px; }
+    h2 { font-size: 21px; margin-top: 36px; }
+    h3 { font-size: 17px; }
+
+    .hero { padding: 20px; }
+    .callout { padding: 14px 16px; }
+
+    table { font-size: 13px; }
+    th, td { padding: 9px 12px; }
+
+    .scenario { padding: 16px 18px; }
+}
+
+@media (max-width: 480px) {
+    body { font-size: 15px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 16px; }
+    .header-brand { font-size: 13px; }
+}
+
+/* Print */
+@media print {
+    .header, .sidebar, .backdrop, .menu-toggle { display: none; }
+    .layout { grid-template-columns: 1fr; max-width: 100%; }
+    .main { padding: 20px; max-width: 100%; }
+    body { background: white; color: black; font-size: 11pt; }
+    h1, h2, h3, h4, strong { color: black; }
+    a { color: black; text-decoration: underline; }
+    .callout, .scenario, .hero, .table-wrap { border: 1px solid #ccc !important; background: white !important; box-shadow: none !important; page-break-inside: avoid; }
+    th { background: #f0f0f0 !important; color: black !important; }
+    td { color: black !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-brand">
+        <div class="header-brand-mark">TB</div>
+        <span>TEAM BLACK · Launch Strategy</span>
+    </div>
+    <div class="header-meta">Room 924 · ИП Тоскина Ю.В. · ОЗ 2026</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+</header>
+
+<div class="backdrop" id="backdrop"></div>
+
+<div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="toc-title">Содержание</div>
+        <ul class="toc-list">
+            <li><a href="#tldr">TL;DR</a></li>
+            <li><a href="#findings">Ключевые выводы</a></li>
+            <li><a href="#part1">Часть 1. Стратегии запуска</a>
+                <ul>
+                    <li><a href="#part1-1">Модели запуска</a></li>
+                    <li><a href="#part1-2">Кейсы брендов</a></li>
+                    <li><a href="#part1-3">Порядок запуска SKU</a></li>
+                    <li><a href="#part1-4">Финмодель</a></li>
+                    <li><a href="#part1-5">Риски</a></li>
+                    <li><a href="#part1-6">Брендинг</a></li>
+                </ul>
+            </li>
+            <li><a href="#part2">Часть 2. Состав одежды</a></li>
+            <li><a href="#part3">Часть 3. Смежный мерч</a></li>
+            <li><a href="#part4">Часть 4. Поставщики</a>
+                <ul>
+                    <li><a href="#part4-1">Бишкек полный цикл</a></li>
+                    <li><a href="#part4-2">Иваново трикотаж</a></li>
+                    <li><a href="#part4-3">Носки РФ</a></li>
+                    <li><a href="#part4-4">Бейсболки</a></li>
+                    <li><a href="#part4-5">Сублимация джерси</a></li>
+                    <li><a href="#part4-6">Сумки и рюкзаки</a></li>
+                    <li><a href="#part4-7">Шейкеры и бутылки</a></li>
+                    <li><a href="#part4-8">Постельное бельё</a></li>
+                    <li><a href="#part4-9">Аксессуары</a></li>
+                </ul>
+            </li>
+            <li><a href="#recommendations">Рекомендации</a></li>
+            <li><a href="#nextsteps">Next steps (4 недели)</a></li>
+            <li><a href="#caveats">Caveats и ограничения</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+
+        <div class="hero">
+            <h1>
+                Team Black — запуск полноценной спортивной линейки
+                <span class="subtitle">Стратегия, ассортимент, мерч и поставщики · ИП Тоскина Юлия Викторовна (Room 924) · поставка осень/зима 2026</span>
+            </h1>
+            <div class="hero-meta">
+                <div class="hero-meta-item">8 базовых SKU на старте</div>
+                <div class="hero-meta-item">500 шт./SKU минимум</div>
+                <div class="hero-meta-item">Бюджет 2,9–3,2 млн ₽</div>
+                <div class="hero-meta-item">Россия + Киргизия</div>
+                <div class="hero-meta-item">Маркетплейсы WB, Ozon</div>
+            </div>
+        </div>
+
+        <h2 id="tldr">TL;DR</h2>
+        <div class="callout callout-tldr">
+            <div class="callout-title">Краткий вывод</div>
+            <ul>
+                <li><strong>Рекомендуемая модель — гибридная:</strong> ~70 % объёма (трикотаж, костюмы, шорты, футболки) — у 1–2 полноцикловых фабрик в Бишкеке (ЕАЭС, без пошлин), ~30 % — у российских узких специалистов (носки в Брянске/Чебоксарах, кепки в Ярославле/Москве, сублимация в НН/Москве, шейкеры в Челябинске).</li>
+                <li><strong>Стартовая капсула на ОЗ 2026 — 8 SKU:</strong> зип-худи + джоггеры, оверсайз-футболка, шорты-джоггеры, бейсболка 6-панель с вышивкой, носки 3-пак с жаккардовым логотипом, шейкер 600 мл, поясная сумка/шоппер.</li>
+                <li><strong>Бюджет старта (500 шт./SKU × 8 SKU):</strong> 2,4–3,0 млн ₽ на закупку + 300–500 тыс ₽ на сертификацию, ФФ, маркировку, образцы. Целевая маржинальность после комиссии WB FBW 34,5 % и логистики — 20–30 %.</li>
+            </ul>
+        </div>
+
+        <h2 id="findings">Ключевые выводы</h2>
+        <ol>
+            <li><strong>Бишкек доминирует</strong> в швейке для российских маркетплейсов: режим ЕАЭС (нет таможенных пошлин), цена пошива в 1,5–2× ниже московской, MOQ адекватный (от 300–500 шт./модель). Канал клиента в Бишкеке уже работает — расширять, а не строить с нуля.</li>
+            <li><strong>Иваново — приоритетный второй хаб</strong> для трикотажа (футболки, лонгсливы, свитшоты, постельное). Есть фабрики с прямым опытом WB-фулфилмента (IVTEKO, MASO).</li>
+            <li><strong>Узкие категории — только у специалистов.</strong> Сублимация, бейсболки, носки, шейкеры — экономия 20–40 %.</li>
+            <li><strong>Маркировка «Честный знак»</strong> с 1 марта 2025 г. обязательна для всех планируемых категорий (постановление № 883 от 29.06.2024). ЭДО + УПД от фабрики — обязательны.</li>
+            <li><strong>Реалистичная экономика WB:</strong> комиссия FBW «Одежда» с 31.10.2025 — <strong>34,5 %</strong>; возвраты в фэшн на маркетплейсах — <strong>30–45 %</strong>.</li>
+            <li><strong>Demix и др. брендов «Спортмастера»</strong> — производство Китай/Вьетнам, тиражи в сотни тысяч. На WB конкурировать ценой невозможно. Ниша Team Black — «качественный масс-маркет с понятной идентичностью» (по типу Skills, BLRussia, TForce, BUTY).</li>
+        </ol>
+
+        <h2 id="part1">Часть 1 · Стратегии создания линейки</h2>
+
+        <h3 id="part1-1">1.1 Модели запуска</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Модель</th><th>Плюсы</th><th>Минусы</th><th>Когда подходит</th></tr></thead>
+                <tbody>
+                <tr>
+                    <td><strong>A. Полноцикловый контрактник</strong> (KEMSEL, FORTEM, KG TEX)</td>
+                    <td>1 договор, единое качество, простая логистика, единая упаковка/маркировка</td>
+                    <td>Узкие категории (сублимация, носки, шейкеры) шьют посредственно — переплата 20–40 %. Зависимость от 1 фабрики</td>
+                    <td>Капсула 3–5 SKU базового трикотажа на старте</td>
+                </tr>
+                <tr>
+                    <td><strong>B. Специалисты по категориям</strong></td>
+                    <td>Лучшая цена и качество в каждой категории. Гибкость наращивания</td>
+                    <td>5–10 договоров, разная упаковка, разный темп, сложнее визуальное единство</td>
+                    <td>Зрелый бренд с 20+ SKU и большими тиражами</td>
+                </tr>
+                <tr>
+                    <td><strong>C. Гибрид</strong> <span class="badge badge-success">рекомендуется</span></td>
+                    <td>1–2 «локомотива» в Бишкеке/Иваново шьют 60–70 % объёма + специалисты на узкие категории</td>
+                    <td>Менеджмент 4–6 поставщиков, но можно стартовать малым тиражом</td>
+                    <td><strong>Оптимальный сценарий для запуска Team Black на ОЗ 2026</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part1-2">1.2 Кейсы российских масс-маркет брендов</h3>
+        <ul>
+            <li><strong>Demix (Спортмастер).</strong> «Более 2200 изделий марки Demix, что составляет около 5 % общего числа товаров ритейлера» (М. Бурмистров, «Infoline-аналитики», «Ведомости», 24.09.2018). Производство Вьетнам/Китай. Партнёрство со «спортивной лабораторией Наньянского технологического университета в Сингапуре» с 2013 г. На WB худи 1500–3500 ₽, костюмы 2500–6000 ₽.</li>
+            <li><strong>Outventure (Спортмастер).</strong> Outdoor/трекинг, производство Китай.</li>
+            <li><strong>Skills</strong> (skillswear.ru, с 2010). Российский streetwear, минимализм, средний чек 1500–3500 ₽.</li>
+            <li><strong>Sela.</strong> Внешнее производство, выручка на WB ~1 млрд ₽/мес (оценка moneyplace.io).</li>
+            <li><strong>BLRussia, TForce, BUTY, Анта Russia</strong> — успешные WB-бренды без офлайн-розницы. Это ниша, в которой Team Black должен расположиться.</li>
+        </ul>
+        <div class="callout callout-info">
+            <div class="callout-title">Вывод</div>
+            Конкурировать с Demix ценой (китайские тиражи) невозможно. Стратегия Team Black — «качественный масс-маркет с понятным дизайном», производство КГ + РФ, акцент на скорость вывода SKU и качество посадки.
+        </div>
+
+        <h3 id="part1-3">1.3 Порядок запуска SKU (поэтапно)</h3>
+        <h4>Этап 1 (Q3 2026, ОЗ-старт) — Базовая капсула, 8 SKU × 500 шт ≈ 4000 ед.:</h4>
+        <ol>
+            <li>Зип-худи (футер 3-нитка с начёсом, 320 г/м², хлопок 80 %/ПЭ 20 %) — 2 цвета (чёрный + графит)</li>
+            <li>Джоггеры (тот же футер, манжет-кашкорсе) — 2 цвета</li>
+            <li>Оверсайз-футболка (пенье 220 г/м²) — 2 цвета</li>
+            <li>Шорты-джоггеры (футер двунитка) — 1 цвет</li>
+            <li>Бейсболка 6-панель, классическая, вышивка</li>
+            <li>Носки спортивные средние, жаккардовый логотип, 3-пак</li>
+            <li>Шейкер 600 мл с УФ-печатью лого</li>
+            <li>Поясная сумка / шоппер (хлопковая саржа 280 г/м²)</li>
+        </ol>
+        <p><strong>Cash-flow логика:</strong> футболки и носки — быстрая оборачиваемость (30–45 дней) — это «локомотивы»; костюмы — длинный цикл (90+ дней) — это «прибыль на единицу». Шейкер и кепка — мерч (низкий чек, частота докупки + узнаваемость).</p>
+        <p><strong>Этап 2 (Q4 2026 – Q1 2027):</strong> свитшот без капюшона, лонгслив, поло, женский кроп-топ, тайтсы/леггинсы, рашгард, базовые тренировочные шорты, утеплённая куртка.</p>
+        <p><strong>Этап 3 (2027):</strong> сублимационные джерси (футбол/баскетбол) под капсулы, коврик для йоги, полотенца, рюкзак, термос.</p>
+
+        <h3 id="part1-4">1.4 Финансовая модель (с реальной комиссией WB FBW 34,5 %)</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Категория</th><th>Себест. (КГ, ₽)</th><th>Розница WB, ₽</th><th>Маржа после WB 34,5 % + логистика + ЧЗ + возвраты 35 %</th></tr></thead>
+                <tbody>
+                <tr><td>Худи / зип-худи (футер 3-нитка)</td><td>800–1300</td><td>2200–3800</td><td>18–28 %</td></tr>
+                <tr><td>Джоггеры</td><td>600–900</td><td>1400–2700</td><td>22–30 %</td></tr>
+                <tr><td>Футболка пенье 220 г</td><td>280–450</td><td>800–1700</td><td>25–35 %</td></tr>
+                <tr><td>Шорты</td><td>350–550</td><td>1000–2000</td><td>25–35 %</td></tr>
+                <tr><td>Лонгслив</td><td>400–650</td><td>1100–2200</td><td>22–32 %</td></tr>
+                <tr><td>Свитшот/толстовка</td><td>700–1100</td><td>1700–3200</td><td>22–30 %</td></tr>
+                <tr><td>Поло</td><td>450–700</td><td>1200–2400</td><td>22–32 %</td></tr>
+                <tr><td>Тайтсы (бифлекс)</td><td>400–700</td><td>1100–2400</td><td>22–30 %</td></tr>
+                <tr><td>Рашгард</td><td>500–800</td><td>1300–2700</td><td>22–30 %</td></tr>
+                <tr><td><strong>Носки спортивные (пара)</strong></td><td>35–70</td><td>3-пак 250–550</td><td><strong>40–55 %</strong> · лучшая маржа</td></tr>
+                <tr><td>Бейсболка 6-панель</td><td>250–500</td><td>800–1700</td><td>28–40 %</td></tr>
+                <tr><td>Сублимационное джерси</td><td>600–900</td><td>1700–3000</td><td>22–30 %</td></tr>
+                <tr><td><strong>Шейкер 600 мл</strong></td><td>110–180 + декор 30–50</td><td>400–800</td><td><strong>35–50 %</strong></td></tr>
+                <tr><td>Шоппер хлопок</td><td>120–200</td><td>450–900</td><td>35–50 %</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p><strong>Бюджет старта Этап 1:</strong> 8 SKU × 500 шт × средняя СС 600 ₽ ≈ 2,4 млн ₽ + ~500 тыс ₽ операционные (декларации ТР ТС 017/2011, образцы, фото, маркировка ЧЗ, упаковка, ФФ-склады WB). Итого <strong>~2,9–3,2 млн ₽</strong>.</p>
+
+        <h3 id="part1-5">1.5 Риски и подводные камни</h3>
+        <div class="callout callout-warning">
+            <div class="callout-title">Критические параметры</div>
+            <ul>
+                <li><strong>Возвраты 30–45 %</strong> (AdIndex.ru, 24.07.2025). Закладывать в юнит-экономику минимум 35 %.</li>
+                <li><strong>Размерный ряд.</strong> Первый цикл — S/M/L/XL по 100–150 шт./размер; XS/XXL — добор после 30 дней по продажам.</li>
+                <li><strong>Сезонность.</strong> Худи — пик сентябрь–февраль; футболки/шорты — апрель–август. Цикл закладки в КГ — 2,5–3 мес; для ОЗ 2026 заказ должен уйти в производство <strong>до конца июля 2026</strong>.</li>
+                <li><strong>Мёртвые остатки.</strong> Не более 2 цветов на модель; «безопасные» — чёрный, графит, бежевый, белый.</li>
+                <li><strong>«Честный знак».</strong> С 1 марта 2025 — обязательна. Код DataMatrix 60 коп. + услуги оператора 5–15 ₽/ед.</li>
+                <li><strong>ТР ТС 017/2011.</strong> Декларация 8000–25000 ₽, действует 3–5 лет.</li>
+                <li><strong>Риск 1 фабрики.</strong> Минимум 2 поставщика-«близнеца» на трикотаж — обязательно.</li>
+            </ul>
+        </div>
+
+        <h3 id="part1-6">1.6 Брендинг и связность при работе с несколькими фабриками</h3>
+        <ul>
+            <li>Единый брендбук декорирования (размер лого, шрифт, положение «грудь/спина/рукав», Pantone, плотность шелкографии, толщина строчки вышивки).</li>
+            <li>Единые лекала (заказать в одной фабрике, передавать «давальческой» отгрузкой другим).</li>
+            <li>Единые бирки/полибэги (один типографский партнёр; давальческая отгрузка на фабрики).</li>
+            <li>Сатиновый составник + жаккардовый лейбл TEAM BLACK на каждом изделии — обязательно.</li>
+        </ul>
+
+        <h2 id="part2">Часть 2 · Состав линейки одежды</h2>
+
+        <h4>Спортивный костюм</h4>
+        <p>Футер 3-нитка с начёсом 320–340 г/м², хлопок 75–80 %/ПЭ. Манжет/пояс — кашкорсе 380–420 г/м². Альтернатива: футер 2-нитка 280–300 г/м² (легче, для женской/межсезонной). <strong>MOQ:</strong> Deerinde от 300; SEZI, IVTEKO от 500. <strong>СС в КГ:</strong> худи 800–1300, джоггеры 600–900, костюм 1400–2200 ₽. <strong>Розница WB:</strong> Demix 2500–6000 ₽; Skills/BLRussia 2900–5200 ₽.</p>
+
+        <h4>Шорты</h4>
+        <p>Хлопковые (двунитка 240–280 г/м², 90/10): СС 350–550, WB 900–1800. Технические (полиэстер 140–180 + эластан, сетка-подкладка, сублимация возможна): СС 280–450, WB 700–1500.</p>
+
+        <h4>Футболки</h4>
+        <p>Пенье 180 (летняя) и 220 г/м² (оверсайз), 100 % хлопок или 95/5. <strong>MOQ Иваново от 500</strong> (IVTEKO, MASO), <strong>Бишкек от 300–500</strong>. <strong>СС:</strong> КГ 280–450; Иваново 350–550. <strong>Розница WB:</strong> базовые 600–1400; брендовые (Skills) 1200–2200 ₽.</p>
+
+        <h4>Бейсболки</h4>
+        <p>6-панель классическая → 5-панель/snapback → dad cap/trucker. <strong>MOQ от 50</strong> (Fabrika-beysbolok); Promoshapka — до 10 000/смену. <strong>СС:</strong> базовая 6-панелька с вышивкой 250–500 ₽. <strong>Розница WB:</strong> 600–1500 ₽.</p>
+
+        <h4>Носки</h4>
+        <p>Гребенной хлопок 80 % + ПЭ/эластан. <strong>MOQ:</strong> «Лидер» Чебоксары — мин. сумма 10 000 ₽, проба 5000 ₽; Брянск — от 1000 пар, индивидуальный дизайн от 100 шт. (макет 3000 ₽); Красная Ветка (Иваново) — до 750 тыс пар/мес СТМ. <strong>СС</strong> 35–70 ₽/пара, <strong>3-пак</strong> 110–200 ₽. <strong>Розница WB:</strong> 3-пак 250–550 ₽; <strong>лучшая маржа в линейке — 50–65 % от РРЦ.</strong></p>
+
+        <h4>Джерси (футбол/баскет/беговые)</h4>
+        <p>Intercool, бифлекс, микрофибра 140–180 г/м². Сублимация (цветные принты, номера) или шелкография (одноцветные). <strong>MOQ:</strong> Sport-Print, Escaper, Zuev — от 5 шт.; Darra — от 20 комплектов. <strong>СС</strong> 600–900 ₽, <strong>розница WB</strong> 1500–2800 ₽. <strong>На старте НЕ включать</strong> — медленная оборачиваемость; вводить как капсулы Этапа 2–3.</p>
+
+        <h4>Прочий трикотаж</h4>
+        <ul>
+            <li>Лонгсливы (пенье/интерлок 200–240 г): СС 400–650, WB 1000–2000</li>
+            <li>Свитшоты (футер 2/3-нитка): 700–1100, WB 1500–3000</li>
+            <li>Толстовки на молнии утеплённые: 1000–1500, WB 2200–3800</li>
+            <li>Поло (лакоста-пике 200–230 г): 450–700, WB 1100–2200</li>
+            <li>Рашгарды (бифлекс + эластан, плоские швы): 500–800, WB 1200–2500</li>
+            <li>Тайтсы/леггинсы (бифлекс 230–280 г): 400–700, WB 1000–2200</li>
+            <li>Спортивный топ-бра: 300–550, WB 700–1500</li>
+        </ul>
+
+        <h4>Верхняя одежда (расширение бомбера)</h4>
+        <ul>
+            <li>Жилет утеплённый (синтепон 100 г): СС 800–1300, WB 1800–3500</li>
+            <li>Ветровка лёгкая (мембрана 80 г/м²): 700–1100, WB 1500–3500</li>
+            <li>Зимняя куртка-парка (мембрана + пух/синтепон 200 г): 2500–4500, WB 5500–11000</li>
+        </ul>
+
+        <h2 id="part3">Часть 3 · Смежный мерч (lifestyle)</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Позиция</th><th>Включать?</th><th>MOQ</th><th>Где</th><th>СС / Розница, ₽</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Шейкер 600 мл</strong></td><td><span class="badge badge-success">✓ старт</span></td><td>1000 шт.</td><td>Челябинск (Shaker Bottle; Shakers174/Vottler)</td><td>СС 110–180 + декор 30–50; WB 400–800</td></tr>
+                <tr><td>Бутылка для воды</td><td><span class="badge badge-success">✓</span></td><td>500–1000</td><td>Челябинск</td><td>СС 150–250; WB 400–900</td></tr>
+                <tr><td>Термос</td><td><span class="badge badge-danger">✗ старт</span></td><td>500+</td><td>Импорт Китая</td><td>СС 400–700; WB 1200–2500</td></tr>
+                <tr><td><strong>Шоппер хлопок</strong></td><td><span class="badge badge-success">✓ старт</span></td><td>100–300</td><td>МСК (Shopper-Optom, Adwear)</td><td>СС 120–200; WB 450–900</td></tr>
+                <tr><td>Рюкзак спортивный</td><td><span class="badge">Этап 2</span></td><td>от 100 000 ₽</td><td>Белгород (МаксФил)</td><td>СС 600–1100; WB 1500–3500</td></tr>
+                <tr><td><strong>Поясная сумка</strong></td><td><span class="badge badge-success">✓ старт</span></td><td>30–50</td><td>СПб, МСК</td><td>СС 250–400; WB 700–1500</td></tr>
+                <tr><td>Мешок для обуви</td><td><span class="badge">Этап 2</span></td><td>100–300</td><td>Шопперные фабрики</td><td>СС 80–150; WB 250–500</td></tr>
+                <tr><td>Спорт-сумка-баул</td><td><span class="badge">Этап 2</span></td><td>от 100 000 ₽</td><td>Белгород</td><td>СС 700–1200; WB 1800–4000</td></tr>
+                <tr><td>Полотенце</td><td><span class="badge">Этап 3</span></td><td>500+</td><td>Иваново</td><td>СС 200–400; WB 600–1500</td></tr>
+                <tr><td><strong>Постельное бельё</strong></td><td><span class="badge badge-danger">✗</span></td><td>—</td><td>Иваново</td><td>Размывает позиционирование</td></tr>
+                <tr><td>Брелоки/патчи/наклейки</td><td><span class="badge badge-success">✓ лояльность</span></td><td>100–500</td><td>МСК, СПб</td><td>СС 30–80; вложение бесплатно</td></tr>
+                <tr><td>Повязки/напульсники</td><td><span class="badge">Этап 2</span></td><td>300+</td><td>Иваново, КГ</td><td>СС 50–120; WB 200–500</td></tr>
+                <tr><td>Перчатки спортивные</td><td><span class="badge badge-danger">✗ узко</span></td><td>500+</td><td>Импорт</td><td>СС 200–400; WB 600–1200</td></tr>
+                <tr><td>Скакалки</td><td><span class="badge badge-danger">✗</span></td><td>—</td><td>—</td><td>Дешёвый импорт</td></tr>
+                <tr><td><strong>Коврик для йоги</strong></td><td><span class="badge">Этап 3</span></td><td>20–100</td><td>МСК (Snowshow)</td><td>СС 600–1100; WB 1500–3500</td></tr>
+                <tr><td><strong>Бафф/повязка-бафф</strong></td><td><span class="badge badge-success">✓ мерч</span></td><td>100+</td><td>Sport-Print, Escaper</td><td>СС 80–150; WB 350–700</td></tr>
+                <tr><td>Чехлы для ноут/телефона</td><td><span class="badge badge-danger">✗</span></td><td>—</td><td>—</td><td>Не profile бренда</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="callout callout-info">
+            <div class="callout-title">Принцип отбора мерча</div>
+            Включать только то, что (а) усиливает спортивную идентичность Team Black, (б) имеет частоту покупки или эмоциональную ценность, (в) даёт маржу ≥ 35 % после всех затрат. По этому фильтру постельное, чехлы, скакалки — мимо. Шейкер, сумки, кепки, носки — обязательны.
+        </div>
+
+        <h2 id="part4">Часть 4 · Поставщики и контрактные производства</h2>
+
+        <h3 id="part4-1">4.1 Полноцикловые контрактники Бишкек</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты / Юрлицо</th><th>MOQ</th><th>Документы / WB</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Deerinde</strong></td><td>через texmart.kg, optlist.ru. С 2015, ~17 сотр., ~4000 изд./мес</td><td><strong>от 300 шт./модель</strong></td><td>Полный пакет товаросопроводительных для РФ; работа с WB/Ozon/Lamoda</td></tr>
+                <tr><td><strong>KEMSEL</strong></td><td>kemsel.com; ул. Баетова 62/63, Бишкек</td><td>Индивидуально</td><td>Полный цикл, 450–500 сотр., 80–100 тыс изд./мес</td></tr>
+                <tr><td><strong>FORTEM</strong></td><td>через optlist.ru</td><td>Не указан</td><td>Мужская одежда спортивного и повседневного стиля, полный цикл</td></tr>
+                <tr><td><strong>SEZI</strong></td><td>через optlist.ru</td><td><strong>от 500 ед.</strong></td><td>Бомберы, двойки, жилетки; 4 года, WB/Ozon, брендирование</td></tr>
+                <tr><td><strong>KG TEX</strong></td><td>kgtex.ru; <strong>kgtexoffice@gmail.com, +996 (550) 36-55-66</strong>. Офис: ул. Линейная 191; производство — Алма-Атинская 285/1</td><td>Не жёстко</td><td>Полный цикл; печатный цех, вышивка. <strong>«Полный пакет бухгалтерских и таможенных документов, корректная маркировка Честный Знак»</strong></td></tr>
+                <tr><td><strong>Швейпрофит</strong></td><td>shveiprofit.ru; 720082, Бишкек; @shveiprofit.kg</td><td>Не указан</td><td>25 лет, 100+ российских брендов, маркетплейсы</td></tr>
+                <tr><td><strong>Norsy</strong></td><td>norsy.ru; <strong>+7 915 380-04-96, info@norsy.ru</strong>. ООО «НОРСИ-СТОРАДЖ», ИНН 9718173905. Котельники + Бишкек</td><td>Любые</td><td>Полный пакет РФ-документов; шелкография и вышивка; 4 линии, 80 швей</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p><strong>Дополнительные имена для расширения базы:</strong> Stitch Style, UNIQBIZ, Pe Oro, Imperial Holding, FACTORY SHVEI KG ISHENBEKOV, Ailin, Triotex, EasyBrand, Mixadora, KING FABRIKA312, SABI FASHION, AGO InStyle, Bravo, АзияТексПро, JME (1500 моделей лекал), Fullcheck, Bishkek-poshiv.</p>
+
+        <h3 id="part4-2">4.2 Иваново / трикотаж РФ</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты / Юрлицо</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>IVTEKO</strong></td><td>ivteko.ru; <strong>Иваново, Огородная 33; +7 (4932) 49-08-08; ivteko@mail.ru</strong></td><td><strong>от 500 шт./модель</strong></td><td>Трикотаж полного цикла; <strong>поставщик WB и Ozon (ID seller 75632)</strong>, ФФ, помощь с декларацией ТР ТС</td></tr>
+                <tr><td><strong>MASO</strong></td><td>maso-brand.ru; <strong>Иваново, Громобоя 2; +7 960 502-40-48</strong>. ИП Барикова И. В.</td><td>от 200 шт.</td><td>Трикотаж, ДТФ-печать. Продажи через WB/Ozon. Шелкография</td></tr>
+                <tr><td><strong>Florens Group</strong></td><td>ivanovo.florens.group</td><td>от 30 (куртки), типично 100+</td><td>Худи, толстовки, спорт-костюмы, шорты, шапки, кепки. Шелкография, вышивка, флекс, термоперенос, сублимация, DTF</td></tr>
+                <tr><td><strong>ProCotton</strong></td><td>procotton.ru; info@procotton.ru</td><td>от 30+</td><td>Толстовки, худи, олимпийки, свитшоты. Все виды нанесения</td></tr>
+                <tr><td><strong>Красная Ветка</strong></td><td>redvetka.ru; <strong>Иваново, Кольцова 29; 8 (800) 302-17-02</strong>. 26+ лет, 150 машин Lonati, 750 тыс пар/мес</td><td>Опт от 3000 ₽</td><td>Чулочно-носочные СТМ + трикотаж</td></tr>
+                <tr><td><strong>Barssport</strong></td><td>barssport-factory.ru. <strong>Реально Казань</strong>, Химград 53, оф. 9. ООО «ГК Барс», ИНН 1658193829</td><td>от 10 комплектов</td><td>Спортивная форма всех видов, пуховики. Сублимация, шелкография, вышивка</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-3">4.3 Носочные фабрики РФ</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>«Лидер»</strong></td><td>cheblider.ru; <strong>Чебоксары, Мясокомбинатский пр. 14Б; 8 (8352) 38-72-44</strong></td><td>Мин. сумма 10 000 ₽; проба 5000 ₽</td><td>С 2005, СТМ, сертификаты, заключение Минпромторга</td></tr>
+                <tr><td><strong>«Фабрика носков»</strong></td><td>fabrikanoskov.ru; <strong>Брянск, Бурова 14; 8 800 444-11-56</strong></td><td><strong>от 1000 пар; индивид. — от 100 шт.</strong> (макет 3000 ₽)</td><td>Lonati/Autotex, 450 000 пар/мес</td></tr>
+                <tr><td><strong>LorenzLine</strong></td><td>lorenzline.ru; Подкумок, ул. Крупской 16; склад МСК</td><td>От 10 пар; опт от 20 000 ₽</td><td><strong>«Честный знак» с марта 2025 — есть.</strong> С 1 сентября 2025 цены +15 %</td></tr>
+                <tr><td><strong>«ГРАНД»</strong></td><td>noskigrand.ru; <strong>ООО «ТОП», МО, Лосино-Петровский, Текстильная 9; 8 (800) 500-66-65</strong></td><td>СТМ индивидуально</td><td><strong>Партнёры: Decathlon, Спортмастер, Магнит, Метро, Globus, Mothercare, Карусель.</strong> 300+ моделей</td></tr>
+                <tr><td><strong>«Носочные истории»</strong></td><td>sock-stories.ru; анкета на сайте</td><td>Образец бесплатный</td><td>Бренд YES!SOCKS, 500 000+ ед. на WB, СТМ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-4">4.4 Бейсболки</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Promoshapka</strong></td><td>promoshapka.com; <strong>Ярославль, Льва Толстого 26; +7 (4852) 23-05-33</strong>. МСК: 3-я Прядильная 7. С 1992, 7000 м², 400 машин</td><td>Любые; <strong>до 10 000 изд./смену</strong></td><td>Полный цикл; бейсболки, кепи, панамы. <strong>Декларация ТС.</strong> Вышивка 3D, шелкография, сублимация, термоперенос</td></tr>
+                <tr><td><strong>Fabrika-beysbolok.ru</strong></td><td>info@fabrika-beysbolok.ru</td><td><strong>от 50 шт.</strong></td><td>5/6/7-клинки, snapback. Вышивка, шелкография, сублимация, шевроны</td></tr>
+                <tr><td><strong>Liger</strong></td><td>liger.clothing</td><td>от 50 шт.; от 700 ₽/шт</td><td>10+ лет, премиум-сегмент</td></tr>
+                <tr><td><strong>Московский Кепошный Синдикат</strong></td><td>moscowcap.ru; <strong>МСК, Ленинская Слобода 19 к.1; +7 (999) 975-21-95</strong></td><td>От 1 до 10 000</td><td>Ручной премиум-пошив</td></tr>
+                <tr><td><strong>Amadey-print</strong></td><td>amadey-print.ru; <strong>МСК, Бутлерова 17; +7 (495) 660-33-40</strong>. С 2007</td><td>До 1000 готовых ед./сутки</td><td>Бейсболки, толстовки, поло, рубашки. Вышивка, шелкография, термоперенос</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-5">4.5 Сублимационные джерси</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты / Юрлицо</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Escaper</strong></td><td>escaper.ru; <strong>Нижний Новгород, Свободы 63, оф. 403</strong>. ООО «Фабрика Эскейпер», ИНН 5263125714. 8 800 551-50-69</td><td>Дизайн бесплатно при заказе от 10 шт.</td><td>Хоккей, баскетбол, футбол, волейбол; сублимация, аппликация, вышивка</td></tr>
+                <tr><td><strong>Sport-Print</strong></td><td>sport-print.ru; <strong>8 800 775-87-60; info@sport-print.ru</strong>. С 1991</td><td><strong>от 5 шт.</strong></td><td>До 1000 ед./сутки. Хоккей, футбол, баскетбол, мотокросс, киберспорт</td></tr>
+                <tr><td><strong>Zuev Factory</strong></td><td>zuevfactory.ru; <strong>МО, Нахабино, Институтская 1; +7 (495) 41-41-41-7</strong>. С 2004</td><td><strong>от 5 шт.</strong></td><td>Все командные виды + киберспорт, бег, гребля, лыжи</td></tr>
+                <tr><td><strong>Darra</strong></td><td>darrasport.ru; <strong>Пермь, Карпинского 91А</strong>. МСК: +7 (499) 647-54-26</td><td>от 20 комплектов</td><td>Футбол, баскетбол, ММА (рашгарды, шорты), волейбол</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-6">4.6 Сумки и рюкзаки</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты / Юрлицо</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>МаксФил</strong></td><td>maksphil.ru; <strong>Белгород, Сумская 26; +7 (4722) 22-19-91</strong>. ООО ПКФ «МаксФил». С 1992</td><td>Сумма от 100 000 ₽; до 4000 изд./24 ч</td><td>Дорожные/спортивные сумки, рюкзаки, поясные, шопперы. ГОСТ, сертификация. Клиенты: Nissan, VW, Tupperware, Nestle</td></tr>
+                <tr><td><strong>Shopper-Optom</strong></td><td>shopper-optom.ru; МСК; <strong>+7 (925) 329-89-20</strong></td><td><strong>от 50 шт.</strong></td><td>Холщовые шопперы, рюкзаки. Шелкография, термопечать, вышивка</td></tr>
+                <tr><td><strong>Done Print</strong></td><td>doneprint.ru; <strong>СПб, Выборгская наб. 55 к.3; 8 (800) 250-70-35</strong></td><td>от 30 (склад/пошив); шелкография от 50</td><td>Толстовки, поясные сумки, шопперы, рюкзаки, торбы</td></tr>
+                <tr><td><strong>Швейный дом</strong></td><td>shveyniydom.ru; МСК; <strong>+7 (968) 775-7-888</strong></td><td>Индивидуально</td><td>Шопперы, рюкзаки, мешки для обуви, спортсумки</td></tr>
+                <tr><td><strong>Adwear</strong></td><td>adwear.ru; МСК; <strong>+7 (495) 777-91-67</strong></td><td><strong>от 100 шт.</strong></td><td>Шопперы, бейсболки, корпоративный текстиль</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-7">4.7 Шейкеры и бутылки</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты / Юрлицо</th><th>MOQ</th><th>Особенности</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Shaker Bottle</strong></td><td>shakerbottle.ru; <strong>Челябинск, Российская 161; 8-800-770-74-19</strong>. ИП Гурский Г. В.</td><td>от 1 коробки; <strong>свой цвет — от 1000 шт.</strong></td><td><strong>Первое собственное производство шейкеров в России.</strong> Декларация ГОСТ Р, протокол испытаний. УФ-печать</td></tr>
+                <tr><td><strong>Shakers174 / Vottler</strong></td><td>shakers174.ru; <strong>Челябинск, Артиллерийская 136; +7 (351) 211-18-07</strong></td><td><strong>от 1000 шт. для лого</strong></td><td>Импортёр Vottler Co., Ltd. (Гонконг). Сертификаты ГОСТ Р</td></tr>
+                <tr><td><strong>Mojem</strong></td><td>mojem.com; МСК + СПб</td><td>По запросу</td><td>Шейкеры + сувенирка с лого; тампопечать, УФ-печать</td></tr>
+                <tr><td><strong>Adverstyle</strong></td><td>adverstyle.ru; <strong>МСК; +7 (495) 255-7559</strong></td><td>По запросу</td><td>Шейкеры Molti + нанесение, доставка РФ/СНГ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-8">4.8 Постельное бельё Иваново (для справки)</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Фабрика</th><th>Контакты</th><th>MOQ</th></tr></thead>
+                <tbody>
+                <tr><td><strong>Соловия</strong></td><td>solovia.ru; ООО Текстильная фабрика «СОЛОВИЯ», Иваново, Кольцова 23; +7 (962) 161-66-44</td><td>От 5000 ₽</td></tr>
+                <tr><td><strong>Партнёр37</strong></td><td>partner37.ru; Иваново, Ермака 49, ТК «Текстильщик»; +7 (901) 280-77-33</td><td>От 10 000 ₽ опт</td></tr>
+                <tr><td><strong>Ивтекс-Профи</strong></td><td>ivtex-profi.ru; Иваново, Базисная 32; 8 800 100-39-19</td><td>От 5000 ₽</td></tr>
+                <tr><td><strong>Alice Textile</strong></td><td>alice-textile.ru; Иваново, Гнедина 1; +7 (4932) 20-80-90</td><td>От 10 000 ₽</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 id="part4-9">4.9 Коврики для йоги и аксессуары</h3>
+        <ul>
+            <li><strong>Snowshow-opt.ru</strong> — Москва, собственное производство ковриков для йоги, сублимационная печать, NFC-функционал.</li>
+            <li><strong>BS Group (braslet-service.ru)</strong> — коврики, повязки, силиконовые браслеты; РФ/СНГ.</li>
+            <li><strong>Starfit (starfitshop.ru)</strong> — коврики, шейкеры, тренажёры под брендирование.</li>
+        </ul>
+
+        <h2 id="recommendations">Рекомендации · Топ-3 сценария запуска</h2>
+
+        <div class="scenarios">
+            <div class="scenario recommended">
+                <div class="scenario-title"><span class="scenario-medal">🥇</span> Сценарий A — Гибрид: Бишкек + РФ-специалисты <span class="badge badge-success">рекомендован</span></div>
+                <ul>
+                    <li>Базовый трикотаж (костюм, футболка, шорты, лонгслив, свитшот) — <strong>1 проверенная фабрика в Бишкеке</strong> (расширение существующего канала). Кандидаты: <strong>Deerinde, SEZI, KG TEX, Norsy.</strong></li>
+                    <li>Носки — <strong>«Лидер» Чебоксары или «Фабрика носков» Брянск</strong> (СТМ Team Black, ЧЗ, от 100–1000 пар).</li>
+                    <li>Кепки — <strong>Promoshapka (Ярославль)</strong> — единственный с явной декларацией ТС + до 10 000 ед./смену.</li>
+                    <li>Шейкер — <strong>Shaker Bottle (Челябинск)</strong> — российское производство, декларация ГОСТ Р, УФ-печать. Свой цвет от 1000 шт.</li>
+                    <li>Сумки (шоппер + поясная) — <strong>Done Print (СПб) или Shopper-Optom (МСК)</strong> от 30–50 шт.</li>
+                    <li>Сублимационные джерси (резерв Этапа 2) — <strong>Sport-Print или Escaper</strong> от 5–10 шт.</li>
+                </ul>
+                <p><strong>Бюджет:</strong> ~2,9–3,2 млн ₽. <strong>Срок до полки WB:</strong> 3–4 месяца. <strong>Самый дешёвый и быстрый.</strong></p>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title"><span class="scenario-medal">🥈</span> Сценарий B — Полный цикл в Бишкеке + 1 РФ-партнёр</div>
+                <ul>
+                    <li>Вся одежда — у <strong>KG TEX или KEMSEL</strong> (полный цикл, декларации, ЧЗ заявлены).</li>
+                    <li>Носки + кепки + шейкеры — у одного агрегатора (например, Norsy).</li>
+                    <li>Плюсы: 2 договора вместо 5–6. Минусы: переплата 15–25 % на узких категориях.</li>
+                </ul>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title"><span class="scenario-medal">🥉</span> Сценарий C — Иваново как локомотив + мелкие специалисты</div>
+                <ul>
+                    <li>Трикотаж — <strong>IVTEKO + MASO</strong>. Это медленнее и на 20–30 % дороже Бишкека, но без таможни и логистики из КГ.</li>
+                    <li>Подходит, если нужны пилотные партии 100–300 шт. и тонкий контроль качества.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 id="nextsteps">Next steps · Конкретные шаги на 4 недели</h2>
+        <div class="callout callout-recommend">
+            <div class="callout-title">План действий</div>
+            <ol>
+                <li><strong>Неделя 1–2.</strong> ТЗ на 8 SKU (лекала, ткани, плотности, нормы расхода). Заявки в Deerinde, SEZI, KG TEX, Norsy на образцы и цены при тираже 500 шт./SKU.</li>
+                <li><strong>Неделя 3.</strong> Сравнить 3 предложения. Заказать 3 образца (худи, футболка, костюм) у 2 финалистов. Параллельно — запросы в Promoshapka, Shaker Bottle, «Лидер»/Брянск, Done Print/Shopper-Optom.</li>
+                <li><strong>Неделя 4.</strong> Финальный выбор. Договоры. Передача брендбука + единой упаковки/бирок. Бронирование декларации ТР ТС 017/2011 у аккредитованного органа.</li>
+                <li><strong>Месяц 2–3.</strong> Производство. Карточки на WB/Ozon, фотосессия «спорт-аутдор», ABC-аналитика конкурентов, ценообразование с учётом WB FBW 34,5 % и логистики 40–80 ₽/ед.</li>
+                <li><strong>Сентябрь 2026.</strong> Старт продаж. По 2 цвета на «локомотивные» SKU. Бюджет внутренней рекламы WB — 100–150 тыс ₽.</li>
+            </ol>
+        </div>
+
+        <h4>Бенчмарки для пересмотра стратегии</h4>
+        <ul>
+            <li>Оборачиваемость по SKU &lt; 20 % за 60 дней → передизайн карточек / снижение цены / докупка размеров.</li>
+            <li>Маржинальность по категории &lt; 20 % → выводить SKU.</li>
+            <li>Блокировка ≥ 2 % поставок из-за ЧЗ → смена оператора маркировки / переход через РФ-контрактника.</li>
+            <li>Задержка фабрики-«локомотива» в КГ &gt; 3 недель → перенос 30 % объёма в Иваново (IVTEKO, MASO).</li>
+        </ul>
+
+        <h2 id="caveats">Caveats и ограничения</h2>
+        <div class="callout callout-danger">
+            <div class="callout-title">Что важно проверить перед оплатой</div>
+            <ul>
+                <li><strong>Комиссия WB FBW «Одежда» — 34,5 %</strong> с 31.10.2025. Любые расчёты юнит-экономики должны исходить из этой цифры, а не из устаревших «17 % средних».</li>
+                <li><strong>Возвраты в фэшн — 30–45 %</strong> (AdIndex.ru, 24.07.2025). Закладывать минимум 35 %.</li>
+                <li><strong>Маржа 40–60 % на спорт-одежде</strong> — валовая до комиссии. Чистая после всех затрат — реалистично 20–35 %. Носки и шейкеры дают существенно выше.</li>
+                <li><strong>Цены и MOQ — ориентиры на 2025–2026.</strong> На каждое предложение запрашивать актуальную котировку: LorenzLine с 01.09.2025 заявил +15 %.</li>
+                <li><strong>Юрлица/ИНН большинства бишкекских фабрик в открытом доступе не публикуются</strong> — реквизиты приходят на этапе договора. Проверять через открытые реестры КГ и rusprofile.ru для РФ.</li>
+                <li><strong>Расхождения «заявленный город» vs «факт»:</strong> Barssport (Иваново → Казань), Escaper (МСК → НН), МаксФил (МСК → Белгород). Влияет на логистику.</li>
+                <li><strong>Прямое подтверждение «работа в белую + ТР ТС 017/2011 + ЧЗ + декларация на ткань»</strong> удалось найти у KG TEX, Promoshapka, LorenzLine, IVTEKO. У остальных — подтверждать договором и образцами документов.</li>
+                <li><strong>Сублимационные джерси на старте — НЕ включать;</strong> низкая оборачиваемость в масс-маркете без «командного» позиционирования.</li>
+                <li><strong>Постельное бельё для спортивного бренда — антирекомендация;</strong> размывает позиционирование.</li>
+                <li><strong>Контракт с текущим производителем верхней одежды в Бишкеке</strong> — проверить, готов ли он расширить отгрузку на трикотаж/футер.</li>
+            </ul>
+        </div>
+
+        <footer class="footer">
+            <p>Team Black · Room 924 · ИП Тоскина Юлия Викторовна</p>
+            <p>Отчёт подготовлен по состоянию на май 2026. Цены, MOQ и контакты подлежат актуализации на момент сделки.</p>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('backdrop');
+
+function closeMenu() {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('show');
+}
+
+menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('show');
+});
+
+backdrop.addEventListener('click', closeMenu);
+
+// Close menu when clicking a link (mobile)
+document.querySelectorAll('.toc-list a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) closeMenu();
+    });
+});
+
+// Active section highlighting in TOC
+const sections = document.querySelectorAll('h2[id], h3[id]');
+const tocLinks = document.querySelectorAll('.toc-list a');
+
+function highlightActiveSection() {
+    let current = '';
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 120) current = section.id;
+    });
+
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+}
+
+window.addEventListener('scroll', highlightActiveSection, { passive: true });
+highlightActiveSection();
+</script>
+
+</body>
+</html>
